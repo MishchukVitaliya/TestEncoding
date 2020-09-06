@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "28c053fc-39ac-48cd-a729-e185f14e2200",
+		"name": "Test JSON &XML",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "JSON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e4cf5293-1f79-4fa9-b190-0a5472ed0deb",
+						"exec": [
+							"//1.Status is OK\r",
+							"pm.test(\"Status is OK\",function(){\r",
+							"    var jsonData=pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.equal(\"Ok\");\r",
+							"})\r",
+							"\r",
+							"//2. lastYear=1\r",
+							"pm.test(\"lastYear=1\",function(){\r",
+							"    var jsonData=pm.response.json();\r",
+							"    pm.expect(jsonData.incident_count.lastYear).to.equal('1');\r",
+							"})\r",
+							"\r",
+							"//3. uptime>86400\r",
+							"pm.test(\"uptime>86400\",function(){\r",
+							"    var jsonData=pm.response.json();\r",
+							"        pm.expect(jsonData.uptime).to.be.above(86400);\r",
+							"    });\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://status.encoding.com/status.php?format=json&",
+					"protocol": "https",
+					"host": [
+						"status",
+						"encoding",
+						"com"
+					],
+					"path": [
+						"status.php"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "json"
+						},
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "XML",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a6d86adf-7245-44f7-8ea0-944fc8f474ba",
+						"exec": [
+							"//1.Status is OK\r",
+							"pm.test(\"Status is OK\", function () {\r",
+							"    var responseJson = xml2Json(pm.response.text());\r",
+							"    console.log(responseJson.response.status);\r",
+							"    pm.expect(responseJson.response.status).to.equal(\"Ok\")\r",
+							"})\r",
+							"\r",
+							"//2. lastYear=1\r",
+							"pm.test(\"lastYear=1\",function(){\r",
+							"     var responseJson = xml2Json(pm.response.text());\r",
+							"    pm.expect(responseJson.response.incident_count.lastYear).to.equal('1');\r",
+							"})\r",
+							"\r",
+							"//3. uptime>86400\r",
+							"pm.test(\"uptime>86400\",function(){\r",
+							"    var responseJson = xml2Json(pm.response.text());\r",
+							"        pm.expect(parseInt(responseJson.response.uptime)).to.be.above(86400);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://status.encoding.com/status.php?format=xml",
+					"protocol": "https",
+					"host": [
+						"status",
+						"encoding",
+						"com"
+					],
+					"path": [
+						"status.php"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "xml"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
